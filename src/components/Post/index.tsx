@@ -1,39 +1,65 @@
-import { Avatar } from '../Avatar';
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 
+import { Avatar } from '../Avatar';
 import { Comment } from '../Comment';
 
 import styles from './styles.module.css';
 
-export function Post() {
+interface PostProps {
+  author: {
+    name: string;
+    role: string;
+    avatarUrl: string;
+  }
+  content: {
+    type: string;
+    content: string;
+  }[];
+  publishedAt: Date;  
+}
+
+export function Post({ author, publishedAt, content }: PostProps) {
+  const publishedDateFormated = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+    locale: ptBR
+  });
+
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true
+  });
+
   return (
     <article className={styles.container}>
       <header>
         <div className={styles.author}>
-          <Avatar avatarUrl="https://github.com/Eduardo-H.png" />
+          <Avatar avatarUrl={author.avatarUrl} />
 
           <div className={styles.authorInfo}>
-            <strong>Eduardo Oliveira</strong>
-            <span>Web Developer</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
 
-        <time title="23 de dezembro às 08:10" dateTime="2022-12-24 08:10:00">
-          Publicado há 1h
+        <time title={publishedDateFormated} dateTime={publishedAt.toISOString()}>
+          {publishedDateRelativeToNow}
         </time>
       </header>
 
       <div className={styles.content}>
-        <p>Fala pessoal!</p>
-        <p>Hoje eu comecei a estudar a base do React para poder reforçar meus conhecimentos. Espero que seja uma experiência gratificante.</p>
-        <p>Vou atualizando vocês por esse link: <a href="#">meusite.com.br</a></p>
+        {content.map(line => {
+          if (line.type === 'paragraph') {
+            return <p>{line.content}</p>
+          } else if (line.type === 'link') {
+            return <p><a href="#">{line.content}</a></p>
+          }
+        })}
       </div>
 
       <form className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
 
-        <textarea
-          placeholder="Escreva um comentário"
-        />
+        <textarea placeholder="Escreva um comentário" />
 
         <footer>
           <button type="submit">Publicar</button>
