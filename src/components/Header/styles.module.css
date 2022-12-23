@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.25rem 0;
+  gap: 0.5rem;
+  background: var(--gray-800);
+}
+
+.container img {
+  height: 2rem;
+}
+
+.container strong {
+  font-size: 1.25rem;
+  color: #fff;
+}
