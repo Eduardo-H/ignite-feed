@@ -1,7 +1,9 @@
+import { v4 as uuid } from 'uuid';
+
 import { Author } from '../App';
 
 export interface Post {
-  id: number;
+  id: string;
   author: Author;
   content: {
     type: string;
@@ -12,7 +14,7 @@ export interface Post {
 
 export const posts: Post[] = [
   {
-    id: 1,
+    id: uuid(),
     author: {
       avatarUrl: 'https://github.com/maykbrito.png',
       name: 'Mayk Brito',
@@ -23,10 +25,10 @@ export const posts: Post[] = [
       { type: 'paragraph', content: 'Hoje eu comecei a estudar a base do React para poder reforçar meus conhecimentos. Espero que seja uma experiência gratificante' },
       { type: 'link', content: 'meusite.com.br' }
     ],
-    publishedAt: new Date('2023-01-01 12:30:00')
+    publishedAt: new Date('2022-12-24 12:30:00')
   },
   {
-    id: 2,
+    id: uuid(),
     author: {
       avatarUrl: 'https://github.com/diego3g.png',
       name: 'Diego Fernandes',
@@ -37,6 +39,6 @@ export const posts: Post[] = [
       { type: 'paragraph', content: 'Já está no ar o mais novo capítulo da trilha de React do Ignite, vem conferir!' },
       { type: 'link', content: 'rocketseat.com.br/ignite' }
     ],
-    publishedAt: new Date('2023-01-01 09:20:00')
+    publishedAt: new Date('2022-12-24 09:20:00')
   }
 ]

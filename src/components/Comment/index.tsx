@@ -1,4 +1,5 @@
 import { ThumbsUp, Trash } from 'phosphor-react';
+import { useState } from 'react';
 
 import { Author } from '../../App';
 import { Avatar } from '../Avatar';
@@ -6,12 +7,23 @@ import { Avatar } from '../Avatar';
 import styles from './styles.module.css';
 
 interface CommentProps {
+  id: string;
   author: Author;
-  content: string;  
-  applauses: number;
+  content: string;
+  onDeleteComment: (id: string) => void;
 }
 
-export function Comment({ author, content, applauses }: CommentProps) {
+export function Comment({ id, author, content, onDeleteComment }: CommentProps) {
+  const [applausesCount, setApplausesCount] = useState(0);
+
+  function handleApplaudComment() {
+    setApplausesCount(applausesCount + 1);
+  }
+
+  function handleDeleteComment() {
+    onDeleteComment(id);
+  }
+
   return (
     <div className={styles.container}>
       <Avatar avatarUrl={author.avatarUrl} hasBorder={false} />
@@ -26,7 +38,7 @@ export function Comment({ author, content, applauses }: CommentProps) {
               </time>
             </div>
 
-            <button title="Deletar comentário">
+            <button title="Deletar comentário" onClick={handleDeleteComment}>
               <Trash size={24} />
             </button>
           </header>
@@ -35,9 +47,9 @@ export function Comment({ author, content, applauses }: CommentProps) {
         </div>
 
         <footer>
-          <button>
+          <button onClick={handleApplaudComment}>
             <ThumbsUp />
-            Aplaudir <span>{applauses}</span>
+            Aplaudir <span>{applausesCount}</span>
           </button>
         </footer>
       </div>

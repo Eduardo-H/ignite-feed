@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { format, formatDistanceToNow } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import { v4 as uuid } from 'uuid';
 
 import { Author } from '../../App';
 import { Avatar } from '../Avatar';
@@ -9,7 +10,7 @@ import { Comment } from '../Comment';
 import styles from './styles.module.css';
 
 interface Comment {
-  id: number;
+  id: string;
   author: Author;
   content: string;  
   applauses: number;
@@ -40,8 +41,12 @@ export function Post({ author, publishedAt, content }: PostProps) {
   function handlePublishComment(event: FormEvent) {
     event.preventDefault();
 
+    if (!commentText.trim()) {
+      return window.alert('Informe um comentário');
+    }
+
     const newComment: Comment = {
-      id: comments.length + 1,
+      id: uuid(),
       author: {
         name: 'Eduardo Oliveira',
         role: 'Web Developer',
@@ -54,6 +59,14 @@ export function Post({ author, publishedAt, content }: PostProps) {
     setCommentText('');
     setComments([...comments, newComment]);
   }
+
+  function deleteComment(commentId: string) {
+    const commentsWithoutDeletedOne = comments.filter(comment => comment.id !== commentId);
+
+    setComments(commentsWithoutDeletedOne);
+  }
+
+  const isCommentTextEmpty = commentText.trim() === '';
 
   return (
     <article className={styles.container}>
@@ -75,9 +88,9 @@ export function Post({ author, publishedAt, content }: PostProps) {
       <div className={styles.content}>
         {content.map(line => {
           if (line.type === 'paragraph') {
-            return <p>{line.content}</p>
+            return <p key={line.content}>{line.content}</p>
           } else if (line.type === 'link') {
-            return <p><a href="#">{line.content}</a></p>
+            return <p key={line.content}><a href="#">{line.content}</a></p>
           }
         })}
       </div>
@@ -92,7 +105,7 @@ export function Post({ author, publishedAt, content }: PostProps) {
         />
 
         <footer>
-          <button type="submit">Publicar</button>
+          <button type="submit" disabled={isCommentTextEmpty}>Publicar</button>
         </footer>
       </form>
 
@@ -100,9 +113,10 @@ export function Post({ author, publishedAt, content }: PostProps) {
         {comments.map(comment => 
           <Comment 
             key={comment.id}
+            id={comment.id}
             author={comment.author}
             content={comment.content}
-            applauses={comment.applauses}
+            onDeleteComment={deleteComment}
           />  
         )}
       </div>

@@ -108,8 +108,13 @@
   transition: background-color 0.2s;
 }
 
-.commentForm footer button:hover {
+.commentForm footer button:not(:disabled):hover {
   background: var(--green-300);
+}
+
+.commentForm footer button:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
 }
 
 .commentList {
