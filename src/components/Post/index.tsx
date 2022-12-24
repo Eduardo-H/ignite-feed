@@ -72,7 +72,7 @@ export function Post({ author, publishedAt, content }: PostProps) {
     <article className={styles.container}>
       <header>
         <div className={styles.author}>
-          <Avatar avatarUrl={author.avatarUrl} />
+          <Avatar src={author.avatarUrl} />
 
           <div className={styles.authorInfo}>
             <strong>{author.name}</strong>

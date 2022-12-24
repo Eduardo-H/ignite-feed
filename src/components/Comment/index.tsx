@@ -17,7 +17,9 @@ export function Comment({ id, author, content, onDeleteComment }: CommentProps) 
   const [applausesCount, setApplausesCount] = useState(0);
 
   function handleApplaudComment() {
-    setApplausesCount(applausesCount + 1);
+    setApplausesCount((state) => {
+      return state + 1;
+    });
   }
 
   function handleDeleteComment() {
@@ -26,7 +28,7 @@ export function Comment({ id, author, content, onDeleteComment }: CommentProps) 
 
   return (
     <div className={styles.container}>
-      <Avatar avatarUrl={author.avatarUrl} hasBorder={false} />
+      <Avatar src={author.avatarUrl} hasBorder={false} />
 
       <div className={styles.commentBox}>
         <div className={styles.commentContent}>
