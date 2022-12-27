@@ -22,8 +22,7 @@ export const posts: Post[] = [
     },
     content: [
       { type: 'paragraph', content: 'Fala pessoal!' },
-      { type: 'paragraph', content: 'Hoje eu comecei a estudar a base do React para poder reforçar meus conhecimentos. Espero que seja uma experiência gratificante' },
-      { type: 'link', content: 'meusite.com.br' }
+      { type: 'paragraph', content: 'Hoje eu comecei a estudar a base do React para poder reforçar meus conhecimentos. Espero que seja uma experiência gratificante.' }
     ],
     publishedAt: new Date('2022-12-24 12:30:00')
   },
